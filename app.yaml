@@ -40,5 +40,8 @@ builtins:
 
 
 handlers:
+- url: /expense_manager/.*|^/expense_manager$
+  script: ExpenseManager.app
+
 - url: .*
   script: main.app
