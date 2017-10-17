@@ -27,7 +27,6 @@ class ExpenseTransactionHandler(webapp2.RequestHandler):
                 type=self.request.get("type", None),
                 title=self.request.get("title", None),
                 amount=float(self.request.get("amount", None)),
-                currency=self.request.get("currency", "USD"),
                 tag=self.request.get("tag", None),
             )
             self.response.out.write(json.dumps({'success': True, 'error': [], 'response': response}))

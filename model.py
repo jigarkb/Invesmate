@@ -9,7 +9,6 @@ class ExpenseTransaction(db.Model):
     account_id = db.StringProperty()
     title = db.StringProperty()
     amount = db.FloatProperty()
-    currency = db.StringProperty(default="USD")
     tag = db.StringProperty()
 
     created_at = db.DateTimeProperty(auto_now_add=True)

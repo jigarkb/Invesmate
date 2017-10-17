@@ -18,7 +18,6 @@ class ExpenseTransaction(object):
             transaction_id=tracker.transaction_id,
             transaction_type=tracker.type,
             amount=tracker.amount,
-            currency=tracker.currency,
         )
 
         tracker.put()
@@ -37,7 +36,6 @@ class ExpenseTransaction(object):
         datastore_entity.type = json_object["type"]
         datastore_entity.title = json_object["title"]
         datastore_entity.amount = json_object["amount"]
-        datastore_entity.currency = json_object["currency"]
         datastore_entity.tag = json_object["tag"]
 
         return datastore_entity, transaction_exists
