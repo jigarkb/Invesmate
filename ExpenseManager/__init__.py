@@ -6,6 +6,11 @@ app = webapp2.WSGIApplication([
                   handler_method='add',
                   methods=['GET', 'POST']),
 
+    webapp2.Route(template='/expense_manager/transaction/fetch_all',
+                  handler=ExpenseTransactionHandler,
+                  handler_method='fetch_all',
+                  methods=['GET', 'POST']),
+
     webapp2.Route(template='/expense_manager/transaction/update',
                   handler=ExpenseTransactionHandler,
                   handler_method='update',
@@ -19,6 +24,11 @@ app = webapp2.WSGIApplication([
     webapp2.Route(template='/expense_manager/account/add',
                   handler=ExpenseAccountHandler,
                   handler_method='add',
+                  methods=['GET', 'POST']),
+
+    webapp2.Route(template='/expense_manager/account/fetch_all',
+                  handler=ExpenseAccountHandler,
+                  handler_method='fetch_all',
                   methods=['GET', 'POST']),
 
     webapp2.Route(template='/expense_manager/account/update',

@@ -1,4 +1,7 @@
+import logging
+
 import model
+import utils
 
 
 class ExpenseTransaction(object):
@@ -8,19 +11,68 @@ class ExpenseTransaction(object):
     def add(self, **data):
         self.check_validity(method='add', data=data)
 
-        tracker, tracker_exists = self.get_datastore_entity(data)
-        if tracker_exists:
+        transaction, transaction_exists = self.get_datastore_entity(data)
+        if transaction_exists:
             raise Exception("Transaction already present. Try updating it instead!")
 
         ExpenseAccount().transact(
-            user_email=tracker.user_email,
-            account_id=tracker.account_id,
-            transaction_id=tracker.transaction_id,
-            transaction_type=tracker.type,
-            amount=tracker.amount,
+            user_email=transaction.user_email,
+            account_id=transaction.account_id,
+            transaction_type=transaction.type,
+            amount=transaction.amount,
         )
 
-        tracker.put()
+        transaction.put()
+
+    def fetch_user_transactions(self, **data):
+        self.check_validity(method="fetch_all", data=data)
+
+        user_transactions = self.get(user_email=data["user_email"])
+        result = []
+        for transaction in user_transactions:
+            result.append(self.get_json_object(transaction))
+        return result
+
+    @staticmethod
+    def get(debug=False, **filters):
+        query_string = "select * from ExpenseTransaction"
+
+        filters = {key: val for key, val in filters.iteritems() if val != None}
+
+        i = 0
+        for field in filters:
+            if i == 0:
+                query_string += " where "
+
+            if i < len(filters) - 1:
+                query_string += "%s='%s' and " % (field, filters[field])
+            else:
+                query_string += "%s='%s'" % (field, filters[field])
+            i += 1
+
+        response = utils.fetch_gql(query_string)
+        if debug:
+            logging.error("Query String: %s\n\n Response Length: %s" % (query_string, len(response)))
+
+        return response
+
+    @staticmethod
+    def get_json_object(datastore_entity):
+        json_object = {
+            "account_id": datastore_entity.account_id,
+            "user_email": datastore_entity.user_email,
+            "transaction_id": datastore_entity.transaction_id,
+            "type": datastore_entity.type,
+            "title": datastore_entity.title,
+            "amount": datastore_entity.amount,
+            "tag": datastore_entity.tag,
+            "month": datastore_entity.month,
+            "year": datastore_entity.year,
+            "modified_at": datastore_entity.modified_at.strftime('%Y-%m-%d %H:%M'),
+            "created_at": datastore_entity.created_at.strftime('%Y-%m-%d %H:%M'),
+        }
+
+        return json_object
 
     @staticmethod
     def get_datastore_entity(json_object):
@@ -37,6 +89,8 @@ class ExpenseTransaction(object):
         datastore_entity.title = json_object["title"]
         datastore_entity.amount = json_object["amount"]
         datastore_entity.tag = json_object["tag"]
+        datastore_entity.month = json_object["month"]
+        datastore_entity.year = json_object["year"]
 
         return datastore_entity, transaction_exists
 
@@ -96,6 +150,43 @@ class ExpenseAccount(object):
             expense_account.balance -= data["amount"]
 
         expense_account.put()
+
+    @staticmethod
+    def get(debug=False, **filters):
+        query_string = "select * from ExpenseAccount"
+
+        filters = {key: val for key, val in filters.iteritems() if val != None}
+
+        i = 0
+        for field in filters:
+            if i == 0:
+                query_string += " where "
+
+            if i < len(filters) - 1:
+                query_string += "%s='%s' and " % (field, filters[field])
+            else:
+                query_string += "%s='%s'" % (field, filters[field])
+            i += 1
+
+        response = utils.fetch_gql(query_string)
+        if debug:
+            logging.error("Query String: %s\n\n Response Length: %s" % (query_string, len(response)))
+
+        return response
+
+    @staticmethod
+    def get_json_object(datastore_entity):
+        json_object = {
+            "account_id": datastore_entity.account_id,
+            "user_email": datastore_entity.user_email,
+            "type": datastore_entity.type,
+            "title": datastore_entity.title,
+            "balance": datastore_entity.balance,
+            "modified_at": datastore_entity.modified_at.strftime('%Y-%m-%d %H:%M'),
+            "created_at": datastore_entity.created_at.strftime('%Y-%m-%d %H:%M'),
+        }
+
+        return json_object
 
     @staticmethod
     def get_datastore_entity(json_object):
