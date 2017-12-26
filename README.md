@@ -1,1 +1,1 @@
-# Expense Manager
+# Net Worth Manager
