@@ -45,5 +45,9 @@ handlers:
 - url: /expense_tracker/.*|^/expense_tracker$
   script: ExpenseTracker.app
 
+- url: /_ah/admin/.*
+  script: google.appengine.ext.admin.application
+  login: admin
+
 - url: .*
   script: main.app
