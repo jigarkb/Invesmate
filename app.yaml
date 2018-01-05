@@ -38,6 +38,8 @@ builtins:
 - remote_api: on
 - appstats: on
 
+env_variables:
+  GAE_USE_SOCKETS_HTTPLIB : ''
 
 handlers:
 - url: /expense_tracker/.*|^/expense_tracker$
