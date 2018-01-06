@@ -1,1 +1,4 @@
 cron:
+- description: US Market Update
+  url: /data_collector/us_market/update
+  schedule: every 9 mins from 14:29 to 21:05
