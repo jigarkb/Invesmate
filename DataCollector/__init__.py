@@ -10,4 +10,9 @@ app = webapp2.WSGIApplication([
                   handler=CoinbaseMarketHandler,
                   handler_method='update',
                   methods=['GET', 'POST']),
+
+    webapp2.Route(template='/data_collector/binance_market/update',
+                  handler=BinanceMarketHandler,
+                  handler_method='update',
+                  methods=['GET', 'POST']),
 ])
