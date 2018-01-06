@@ -33,7 +33,7 @@ class USMarketHandler(webapp2.RequestHandler):
                     if time.time() - start_time > 9 * 60:
                         break
                     USMarket().update()
-                    time.sleep(0.5)
+                    time.sleep(1)
 
 
 class CoinbaseMarketHandler(webapp2.RequestHandler):
@@ -60,7 +60,7 @@ class CoinbaseMarketHandler(webapp2.RequestHandler):
                     if time.time() - start_time > 9 * 60:
                         break
                     CoinbaseMarket().update()
-                    time.sleep(0.5)
+                    time.sleep(1)
 
 
 class BinanceMarketHandler(webapp2.RequestHandler):
@@ -87,4 +87,4 @@ class BinanceMarketHandler(webapp2.RequestHandler):
                     if time.time() - start_time > 9 * 60:
                         break
                     BinanceMarket().update()
-                    time.sleep(0.5)
+                    time.sleep(1)

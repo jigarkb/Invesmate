@@ -1,3 +1,5 @@
+import logging
+
 import requests
 from firebase_admin import db
 
@@ -59,9 +61,9 @@ class CoinbaseMarket(object):
 
 class BinanceMarket(object):
     def __init__(self):
-        self.symbols = ['IOTA', 'ADA']
-        self.currency = 'BTC'
-        self.base_api = "https://api.binance.com/api/v1/ticker/24hr"
+        self.symbols = ['IOT', 'ADA']
+        self.currency = ['BTC']
+        self.base_api = "https://min-api.cryptocompare.com/data/pricemultifull"
 
     def update(self):
         json_content = self.batch_fetch()
@@ -69,15 +71,22 @@ class BinanceMarket(object):
         binance_market.set(json_content)
 
     def batch_fetch(self):
+        parameters = {
+            "fsyms": ",".join(self.symbols),
+            "e": "binance",
+            "tsyms": ",".join(self.currency)
+        }
+
         result = {}
-        for symbol in self.symbols:
-            r = requests.get(self.base_api, params={"symbol": symbol+self.currency}).json()
-            result["{}-{}".format(symbol, self.currency)] = {
-                "quote": {
-                    "latestPrice": float(r['lastPrice']),
-                    "open": float(r['openPrice']),
-                    "previousClose": float(r['openPrice']),
-                    "close": float(r['lastPrice']),
+        r = requests.get(self.base_api, params=parameters).json()['RAW']
+        for symbol in r:
+            for currency in r[symbol]:
+                result["{}-{}".format(symbol, currency)] = {
+                    "quote": {
+                        "latestPrice": r[symbol][currency]['PRICE'],
+                        "open": r[symbol][currency]['OPEN24HOUR'],
+                        "previousClose": r[symbol][currency]['OPEN24HOUR'],
+                        "close": r[symbol][currency]['PRICE'],
+                    }
                 }
-            }
         return result
