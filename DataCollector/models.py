@@ -7,14 +7,6 @@ class USMarket(object):
         self.symbols = ['AAPL', 'AMD', 'FB', 'MU', 'MSFT', 'AMZN', 'GOOGL', 'TWTR', 'NVDA', 'BABA']
         self.filters = ["previousClose", "open", "latestPrice", "close"]
         self.base_api = "https://api.iextrading.com/1.0/stock/market/batch"
-        self.firebase_data_structure = {
-            "$quote": {
-                "previousClose": 0,
-                "open": 0,
-                "latestPrice": 0,
-                "close": 0,
-            }
-        }
 
     def update(self):
         json_content = self.batch_fetch()
@@ -32,5 +24,26 @@ class USMarket(object):
         return r.json()
 
 
+class CoinbaseMarket(object):
+    def __init__(self):
+        self.symbols = ['BTC-USD', 'LTC-USD', 'ETH-USD', 'BCH-USD']
+        self.filters = ["previousClose", "open", "latestPrice", "close"]
+        self.base_api = "https://api.coinbase.com/v2/prices/{currency_pair}/spot"
 
+    def update(self):
+        json_content = self.batch_fetch()
+        coinbase_market = db.reference('/coinbase_market')
+        coinbase_market.set(json_content)
+
+    def batch_fetch(self):
+        result = {}
+        for currency_pair in self.symbols:
+            r = requests.get(self.base_api.format(currency_pair=currency_pair))
+            r = r.json()
+            result[currency_pair] = {
+                "quote": {
+                    "latestPrice": r['data']['amount']
+                }
+            }
+        return result
 

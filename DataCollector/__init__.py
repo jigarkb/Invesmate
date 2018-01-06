@@ -5,4 +5,9 @@ app = webapp2.WSGIApplication([
                   handler=USMarketHandler,
                   handler_method='update',
                   methods=['GET', 'POST']),
+
+    webapp2.Route(template='/data_collector/coinbase_market/update',
+                  handler=CoinbaseMarketHandler,
+                  handler_method='update',
+                  methods=['GET', 'POST']),
 ])
