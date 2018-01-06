@@ -10,7 +10,7 @@ class USMarket(object):
 
     def update(self):
         json_content = self.batch_fetch()
-        us_market = db.reference('/us_market')
+        us_market = db.reference('/market/us')
         us_market.set(json_content)
 
     def batch_fetch(self):
@@ -26,24 +26,30 @@ class USMarket(object):
 
 class CoinbaseMarket(object):
     def __init__(self):
-        self.symbols = ['BTC-USD', 'LTC-USD', 'ETH-USD', 'BCH-USD']
-        self.filters = ["previousClose", "open", "latestPrice", "close"]
-        self.base_api = "https://api.coinbase.com/v2/prices/{currency_pair}/spot"
+        self.symbols = ['BTC', 'LTC', 'ETH', 'BCH']
+        self.currency = ['USD']
+        self.base_api = "https://min-api.cryptocompare.com/data/pricemulti"
 
     def update(self):
         json_content = self.batch_fetch()
-        coinbase_market = db.reference('/coinbase_market')
+        coinbase_market = db.reference('/market/coinbase')
         coinbase_market.set(json_content)
 
     def batch_fetch(self):
+        parameters = {
+            "fsyms": ",".join(self.symbols),
+            "e": "coinbase",
+            "tsyms": ",".join(self.currency)
+        }
+
         result = {}
-        for currency_pair in self.symbols:
-            r = requests.get(self.base_api.format(currency_pair=currency_pair))
-            r = r.json()
-            result[currency_pair] = {
-                "quote": {
-                    "latestPrice": r['data']['amount']
+        r = requests.get(self.base_api, params=parameters).json()
+        for symbol in r:
+            for currency in r[symbol]:
+                result["{}-{}".format(symbol, currency)] = {
+                    "quote": {
+                        "latestPrice": r[symbol][currency]
+                    }
                 }
-            }
         return result
 

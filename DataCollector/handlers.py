@@ -58,4 +58,3 @@ class CoinbaseMarketHandler(webapp2.RequestHandler):
                         break
                     CoinbaseMarket().update()
                     time.sleep(0.5)
-
