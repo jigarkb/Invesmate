@@ -34,3 +34,18 @@ class UserAccount(db.Model):
 
     created_at = db.DateTimeProperty(auto_now_add=True)
     modified_at = db.DateTimeProperty(auto_now=True)
+
+
+class Holding(db.Model):
+    uuid = db.StringProperty()
+    user_email = db.StringProperty()
+    portfolio_name = db.StringProperty()
+    market = db.StringProperty()
+    symbol = db.StringProperty()
+    shares = db.FloatProperty()
+    cost_price = db.FloatProperty()
+    note = db.TextProperty()
+    purchased_at = db.StringProperty()
+
+    created_at = db.DateTimeProperty(auto_now_add=True)
+    modified_at = db.DateTimeProperty(auto_now=True)
