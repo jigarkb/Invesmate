@@ -42,6 +42,9 @@ env_variables:
   GAE_USE_SOCKETS_HTTPLIB : ''
 
 handlers:
+- url: /user_account/.*|^/user_account$
+  script: UserAccount.app
+
 - url: /data_collector/.*|^/data_collector$
   script: DataCollector.app
 

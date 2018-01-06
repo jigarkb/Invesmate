@@ -46,5 +46,15 @@ def authenticate_user(self, target_url, email_list=None):
         return False
 
 
+def authenticate_user_account(request):
+    try:
+        from UserAccount import UserAccount
+        auth_token = request.cookies.get('auth_token', '')
+        user_info = UserAccount.verify(auth_token=auth_token)
+        return user_info
+    except:
+        return None
+
+
 def template(file_name, directory="templates"):
     return os.path.join(os.path.dirname(__file__), directory, file_name)

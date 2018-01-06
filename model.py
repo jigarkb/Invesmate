@@ -25,3 +25,12 @@ class ExpenseAccount(db.Model):
     balance = db.FloatProperty(default=0.0)
     created_at = db.DateTimeProperty(auto_now_add=True)
     modified_at = db.DateTimeProperty(auto_now=True)
+
+
+class UserAccount(db.Model):
+    user_id = db.StringProperty()
+    password_hash = db.TextProperty()
+    full_name = db.StringProperty()
+
+    created_at = db.DateTimeProperty(auto_now_add=True)
+    modified_at = db.DateTimeProperty(auto_now=True)
