@@ -24,6 +24,7 @@ class UserAccountHandler(webapp2.RequestHandler):
             if not response:
                 raise Exception('Invalid Credentials!')
 
+            self.response.set_cookie('auth_token', response['auth_token'])
             self.response.out.write(json.dumps({'success': True, 'error': [], 'response': response}))
         except Exception as e:
             self.response.out.write(json.dumps({'success': False, 'error': e.message, 'response': None}))
