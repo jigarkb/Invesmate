@@ -1,6 +1,11 @@
 from .handlers import *
 
 app = webapp2.WSGIApplication([
+    webapp2.Route(template='/portfolio',
+                  handler=PortfolioHandler,
+                  handler_method='dashboard',
+                  methods=['GET']),
+
     webapp2.Route(template='/portfolio/add',
                   handler=HoldingHandler,
                   handler_method='add',

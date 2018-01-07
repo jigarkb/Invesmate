@@ -2,9 +2,70 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>Your Holdings</title>
+    <script src="https://www.gstatic.com/firebasejs/4.8.1/firebase.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="/portfolio/static/js/realtime.js"></script>
+
+    <link rel="stylesheet" href="/portfolio/static/css/odometer-theme-default.css" />
+    <script src="/portfolio/static/js/odometer.min.js"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css"/>
+
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js"></script>
 </head>
 <body>
-$END$
+<div id="date" style="text-align: center;">{{ date_str }} (UTC)</div><br>
+<div id="odo_total" style="text-align: center; color: #85bb65; font-size: 500%; font-family: 'Helvetica Neue', sans-serif;">$<div class="odometer"></div></div>
+<div id="portfolio">
+    <table id="main_table" class="display table table-hover table-striped" cellspacing="1" width="100%" style="table-layout: fixed;width: 100%">
+        <thead>
+        <tr>
+            <th style="width: 15%;">
+                <div style="font-size: large">
+                    Symbol</br>
+                    <div style="font-size: small">Market</div>
+                </div>
+            </th>
+            <th style="width: 15%;">
+                <div style="font-size: large">
+                    Purchase Price</br>
+                    <div style="font-size: small">price/share</div>
+                </div>
+            </th>
+            <th style="width: 15%;">
+                <div style="font-size: large">
+                    Market Value</br>
+                    <div style="font-size: small">value/share</div>
+                </div>
+            </th>
+            <th style="width: 15%;">
+                <div style="font-size: large">
+                    Day Change</br>
+                    <div style="font-size: small">%</div>
+                </div>
+            </th>
+            <th style="width: 15%;">
+                <div style="font-size: large">
+                    Overall Change</br>
+                    <div style="font-size: small">%</div>
+                </div>
+            </th>
+        </tr>
+        </thead>
+    </table>
+</div>
+<script>
+    $(document).ready(function(){
+        var config = {{ config|safe }};
+        firebase.initializeApp(config);
+        new Realtime();
+    });
+</script>
 </body>
 </html>

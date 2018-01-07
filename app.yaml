@@ -42,6 +42,9 @@ env_variables:
   GAE_USE_SOCKETS_HTTPLIB : ''
 
 handlers:
+- url: /portfolio/static/
+  static_dir: Portfolio/static
+
 - url: /portfolio/.*|^/portfolio$
   script: Portfolio.app
 

@@ -5,9 +5,32 @@ import uuid
 
 import datetime
 import webapp2
+from google.appengine.ext.webapp import template
 
 from .models import Holding
 import utils
+
+
+class PortfolioHandler(webapp2.RedirectHandler):
+    def dashboard(self):
+        user_info = utils.authenticate_user_account(self.request)
+        if not user_info:
+            return
+
+        template_values = {
+            "user": user_info["full_name"],
+            "config": {
+                "apiKey": "AIzaSyDjLVEBgIWBZvN15eqhppSpV2zJEMGGPPo",
+                "authDomain": "brainstorm-cloud.firebaseapp.com",
+                "databaseURL": "https://brainstorm-cloud.firebaseio.com",
+                "projectId": "brainstorm-cloud",
+                "storageBucket": "brainstorm-cloud.appspot.com",
+                "messagingSenderId": "244652867281"
+            },
+            "date_str": datetime.datetime.now().strftime('%Y-%m-%d'),
+        }
+        page = utils.template("dashboard.html", "Portfolio/html")
+        self.response.out.write(template.render(page, template_values))
 
 
 class HoldingHandler(webapp2.RequestHandler):
@@ -47,12 +70,66 @@ class HoldingHandler(webapp2.RequestHandler):
 
         try:
             user_holdings = Holding.get(user_email=user_info["user_id"])
-            response = {}
+            position_index = {}
+            positions = []
+            i = -1
+            cost_price = 0
             for holding in user_holdings:
-                obj = Holding.get_json_object(holding)
-                response[obj["portfolio_name"]] = response.get(obj["portfolio_name"], [])
-                response[obj["portfolio_name"]].append(obj)
-
+                cost_price += holding.cost_price
+                key_name = "market/{}/{}".format(holding.market.lower(), holding.symbol)
+                if key_name not in position_index:
+                    i += 1
+                    position_index[key_name] = i
+                    positions.append({
+                        "symbol": holding.symbol,
+                        "market": holding.market,
+                        "shares": holding.shares,
+                        "cost_price": holding.cost_price,
+                        "cost_price_ps": holding.cost_price/float(holding.shares),
+                        "market_price": None,
+                        "market_price_ps": None,
+                        "overall_change": None,
+                        "24hr_change": None,
+                        "lots": [{
+                            "uuid": holding.uuid,
+                            "purchased_at": holding.purchased_at,
+                            "shares": holding.shares,
+                            "cost_price": holding.cost_price,
+                            "cost_price_ps": holding.cost_price/float(holding.shares),
+                            "market_price": None,
+                            "market_price_ps": None,
+                            "overall_change": None,
+                            "24hr_change": None,
+                            "portfolio_name": holding.portfolio_name,
+                            "note": holding.note,
+                        }],
+                    })
+                else:
+                    position = positions[position_index[key_name]]
+                    position["shares"] += holding.shares
+                    position["cost_price"] += holding.cost_price
+                    position["cost_price_ps"] = position["cost_price"]/float(position["shares"])
+                    position["lots"].append({
+                        "uuid": holding.uuid,
+                        "purchased_at": holding.purchased_at,
+                        "shares": holding.shares,
+                        "cost_price": holding.cost_price,
+                        "cost_price_ps": holding.cost_price/float(holding.shares),
+                        "market_price": None,
+                        "market_price_ps": None,
+                        "overall_change": None,
+                        "24hr_change": None,
+                        "portfolio_name": holding.portfolio_name,
+                        "note": holding.note,
+                    })
+            response = {
+                "cost_price": cost_price,
+                "market_price": None,
+                "overall_change": None,
+                "24hr_change": None,
+                "positions": positions,
+                "position_index": position_index,
+            }
             self.response.out.write(json.dumps({'success': True, 'error': [], 'response': response}))
         except Exception as e:
             self.response.out.write(json.dumps({'success': False, 'error': e.message, 'response': None}))
