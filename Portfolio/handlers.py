@@ -13,7 +13,7 @@ import utils
 
 class PortfolioHandler(webapp2.RedirectHandler):
     def dashboard(self):
-        user_info = utils.authenticate_user_account(self.request)
+        user_info = utils.authenticate_user_account(self)
         if not user_info:
             return
 
@@ -35,7 +35,7 @@ class PortfolioHandler(webapp2.RedirectHandler):
 
 class HoldingHandler(webapp2.RequestHandler):
     def add(self):
-        user_info = utils.authenticate_user_account(self.request)
+        user_info = utils.authenticate_user_account(self)
         if not user_info:
             return
 
@@ -61,7 +61,7 @@ class HoldingHandler(webapp2.RequestHandler):
             logging.error(traceback.format_exc())
 
     def fetch_all(self):
-        user_info = utils.authenticate_user_account(self.request)
+        user_info = utils.authenticate_user_account(self)
         if not user_info:
             return
 
@@ -86,20 +86,24 @@ class HoldingHandler(webapp2.RequestHandler):
                         "shares": holding.shares,
                         "cost_price": holding.cost_price,
                         "cost_price_ps": holding.cost_price/float(holding.shares),
-                        "market_price": None,
-                        "market_price_ps": None,
-                        "overall_change": None,
-                        "24hr_change": None,
+                        "market_price": -1,
+                        "market_price_ps": -1,
+                        "overall_change": -1,
+                        "24hr_change": -1,
+                        "overall_change_%": -1,
+                        "24hr_change_%": -1,
                         "lots": [{
                             "uuid": holding.uuid,
                             "purchased_at": holding.purchased_at,
                             "shares": holding.shares,
                             "cost_price": holding.cost_price,
                             "cost_price_ps": holding.cost_price/float(holding.shares),
-                            "market_price": None,
-                            "market_price_ps": None,
-                            "overall_change": None,
-                            "24hr_change": None,
+                            "market_price": -1,
+                            "market_price_ps": -1,
+                            "overall_change": -1,
+                            "24hr_change": -1,
+                            "overall_change_%": -1,
+                            "24hr_change_%": -1,
                             "portfolio_name": holding.portfolio_name,
                             "note": holding.note,
                         }],
@@ -115,18 +119,22 @@ class HoldingHandler(webapp2.RequestHandler):
                         "shares": holding.shares,
                         "cost_price": holding.cost_price,
                         "cost_price_ps": holding.cost_price/float(holding.shares),
-                        "market_price": None,
-                        "market_price_ps": None,
-                        "overall_change": None,
-                        "24hr_change": None,
+                        "market_price": -1,
+                        "market_price_ps": -1,
+                        "overall_change": -1,
+                        "24hr_change": -1,
+                        "overall_change_%": -1,
+                        "24hr_change_%": -1,
                         "portfolio_name": holding.portfolio_name,
                         "note": holding.note,
                     })
             response = {
                 "cost_price": cost_price,
-                "market_price": None,
-                "overall_change": None,
-                "24hr_change": None,
+                "market_price": -1,
+                "overall_change": -1,
+                "24hr_change": -1,
+                "overall_change_%": -1,
+                "24hr_change_%": -1,
                 "positions": positions,
                 "position_index": position_index,
             }

@@ -48,6 +48,9 @@ handlers:
 - url: /portfolio/.*|^/portfolio$
   script: Portfolio.app
 
+- url: /user_account/static/
+  static_dir: UserAccount/static
+
 - url: /user_account/.*|^/user_account$
   script: UserAccount.app
 
