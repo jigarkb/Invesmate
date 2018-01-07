@@ -36,7 +36,11 @@ class USMarketHandler(webapp2.RequestHandler):
                     while True:
                         if time.time() - start_time > 9 * 60:
                             break
-                        USMarket().update()
+                        try:
+                            USMarket().update()
+                        except:
+                            logging.error(traceback.format_exc())
+                            time.sleep(2)
                         time.sleep(1)
         except:
             logging.error(traceback.format_exc())
@@ -66,7 +70,11 @@ class CoinbaseMarketHandler(webapp2.RequestHandler):
                     while True:
                         if time.time() - start_time > 9 * 60:
                             break
-                        CoinbaseMarket().update()
+                        try:
+                            CoinbaseMarket().update()
+                        except:
+                            logging.error(traceback.format_exc())
+                            time.sleep(2)
                         time.sleep(1)
         except:
             logging.error(traceback.format_exc())
@@ -96,7 +104,11 @@ class BinanceMarketHandler(webapp2.RequestHandler):
                     while True:
                         if time.time() - start_time > 9 * 60:
                             break
-                        BinanceMarket().update()
+                        try:
+                            BinanceMarket().update()
+                        except:
+                            logging.error(traceback.format_exc())
+                            time.sleep(2)
                         time.sleep(1)
         except:
             logging.error(traceback.format_exc())
