@@ -75,7 +75,7 @@ class CoinbaseMarketHandler(webapp2.RequestHandler):
                         except:
                             logging.error(traceback.format_exc())
                             time.sleep(2)
-                        time.sleep(1)
+                        time.sleep(5)
         except:
             logging.error(traceback.format_exc())
 
@@ -109,6 +109,6 @@ class BinanceMarketHandler(webapp2.RequestHandler):
                         except:
                             logging.error(traceback.format_exc())
                             time.sleep(2)
-                        time.sleep(1)
+                        time.sleep(5)
         except:
             logging.error(traceback.format_exc())
