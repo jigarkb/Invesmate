@@ -46,14 +46,14 @@ def authenticate_user(self, target_url, email_list=None):
         return False
 
 
-def authenticate_user_account(request):
+def authenticate_user_account(self):
     try:
         from UserAccount import UserAccount
-        auth_token = request.cookies.get('auth_token', '')
+        auth_token = self.request.cookies.get('auth_token', '')
         user_info = UserAccount.verify(auth_token=auth_token)
         return user_info
     except:
-        return None
+        self.redirect("/user_account/login?redirect="+self.request.url)
 
 
 def template(file_name, directory="templates"):
