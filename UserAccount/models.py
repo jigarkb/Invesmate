@@ -52,7 +52,7 @@ class UserAccount(object):
             "full_name": data["full_name"],
         })
         if entity_exists:
-            raise Exception("User ID already exists!")
+            raise Exception("Account with email address already exists!")
 
         datastore_entity.put()
         auth_token = jws.sign(
@@ -64,7 +64,7 @@ class UserAccount(object):
     def login(**data):
         datastore_entity = model.UserAccount.get_by_key_name(data["user_id"])
         if not datastore_entity:
-            raise Exception("User ID does not exists!")
+            raise Exception("Email or Password is invalid!")
 
         if pbkdf2_sha256.verify(data["password"], datastore_entity.password_hash):
             auth_token = jws.sign(
