@@ -127,7 +127,7 @@ Realtime.prototype.load_response = function(response){
         position["overall_change"] = position["market_price"] - position["cost_price"];
         position["overall_change_%"] = 100*(position["market_price"] - position["cost_price"])/position["cost_price"];
         position["24hr_change"] = position["shares"]*(quote["latestPrice"]-quote["previousClose"]);
-        position["24hr_change_%"] = 100*position["shares"]*(quote["latestPrice"]-quote["previousClose"])/quote["previousClose"];
+        position["24hr_change_%"] = 100*(quote["latestPrice"]-quote["previousClose"])/quote["previousClose"];
 
         for(var i = 0; i < position["lots"].length; i++){
             var lot = position["lots"][i];
@@ -136,7 +136,7 @@ Realtime.prototype.load_response = function(response){
             lot["overall_change"] = lot["market_price"] - lot["cost_price"];
             lot["overall_change_%"] = 100*(lot["market_price"] - lot["cost_price"])/lot["cost_price"];
             lot["24hr_change"] = lot["shares"]*(quote["latestPrice"]-quote["previousClose"]);
-            position["24hr_change_%"] = 100*lot["shares"]*(quote["latestPrice"]-quote["previousClose"])/quote["previousClose"];
+            position["24hr_change_%"] = 100*(quote["latestPrice"]-quote["previousClose"])/quote["previousClose"];
 
         }
         main_table.clear().rows.add(positions).draw();
