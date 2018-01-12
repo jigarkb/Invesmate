@@ -17,6 +17,7 @@ Realtime.prototype.load_response = function(response){
     var position_index = response["position_index"];
 
     var main_table = $('#main_table').DataTable({
+        responsive: true,
         data: positions,
         paging: false,
         deferRender: true,
