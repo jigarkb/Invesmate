@@ -6,7 +6,7 @@ from firebase_admin import db
 
 class USMarket(object):
     def __init__(self):
-        self.symbols = ['AAPL', 'AMD', 'FB', 'MU', 'MSFT', 'AMZN', 'GOOGL', 'TWTR', 'NVDA', 'BABA', 'INTC']
+        self.symbols = ['AAPL', 'AMD', 'FB', 'MU', 'MSFT', 'AMZN', 'GOOGL', 'TWTR', 'NVDA', 'BABA', 'INTC', 'INFY']
         self.filters = ["previousClose", "open", "latestPrice", "close"]
         self.base_api = "https://api.iextrading.com/1.0/stock/market/batch"
 
