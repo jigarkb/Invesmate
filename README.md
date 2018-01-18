@@ -1,3 +1,3 @@
 # Net Worth Manager
-## Portfolio Demo
+## Realtime Portfolio
 ![Portfolio Demo](Demo/Portfolio.gif "hola")
