@@ -1,96 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="utf-8">
-
-    <title>Net-Worth Manager</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/user_account/static/css/login.css" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <title>SB Admin - Start Bootstrap Template</title>
+  <!-- Bootstrap core CSS-->
+  <link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Custom fonts for this template-->
+  <link href="/static/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <!-- Custom styles for this template-->
+  <link href="/static/css/sb-admin.css" rel="stylesheet">
 </head>
-<body>
-<div class="jumbotron">
-    <h2 style='text-align: center'>Net-Worth Manager</h2><br>
-    <div class="row">
-        <div class="col-md-6 col-md-offset-3">
-            <div class="alert-placeholder" style="text-align: center; color: indianred">{{error}}</div>
-            <div class="panel panel-login">
-                <div class="panel-heading">
-                    <div class="row">
-                        <div class="col-xs-6">
-                            <a href="#" class="{{login}}" id="login-form-link">Login</a>
-                        </div>
-                        <div class="col-xs-6">
-                            <a href="#" class="{{register}}" id="register-form-link">Register</a>
-                        </div>
-                    </div>
-                    <hr>
-                </div>
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <form id="login-form" action="/user_account/login" method="post" role="form" style="display: {{login_display}};">
-                                <div class="form-group">
-                                    <input type="email" name="user_id" id="user_id" tabindex="1" class="form-control validate-input" placeholder="Email Address" value="">
-                                </div>
-                                <div class="form-group">
-                                    <input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Password">
-                                </div>
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-sm-6 col-sm-offset-3">
-                                            <input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-login" value="Log In">
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                            <form id="register-form" action="/user_account/register" method="post" role="form" style="display: {{register_display}};">
-                                <div class="form-group">
-                                    <input type="text" name="full_name" id="full_name" tabindex="1" class="form-control" placeholder="Full Name" value="">
-                                </div>
-                                <div class="form-group">
-                                    <input type="email" name="user_id" id="user_id" tabindex="1" class="form-control validate-input" placeholder="Email Address" value="">
-                                </div>
-                                <div class="form-group">
-                                    <input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Password">
-                                </div>
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-sm-6 col-sm-offset-3">
-                                            <input type="submit" name="register-submit" id="register-submit" tabindex="4" class="form-control btn btn-register" value="Register Now">
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
+<body class="bg-dark">
+  <div class="container">
+    <div class="card card-login mx-auto mt-5">
+      <div class="card-header">Login</div>
+      <div class="alert-placeholder" style="text-align: center; color: indianred">{{error}}</div>
+      <div class="card-body">
+        <form id="login-form" action="/user_account/login" method="post" role="form">
+          <div class="form-group">
+            <label for="user_id">Email address</label>
+            <input class="form-control" id="user_id" name="user_id" type="email" aria-describedby="emailHelp" placeholder="Enter email">
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input class="form-control" id="password" name="password" type="password" placeholder="Password">
+          </div>
+          <!--<div class="form-group">-->
+            <!--<div class="form-check">-->
+              <!--<label class="form-check-label">-->
+                <!--<input class="form-check-input" type="checkbox"> Remember Password</label>-->
+            <!--</div>-->
+          <!--</div>-->
+          <input type="submit" name="login-submit" id="login-submit" class="btn btn-primary btn-block" value="Log In">
+          <!--<a class="btn btn-primary btn-block" href="index.html">Login</a>-->
+        </form>
+        <div class="text-center">
+          <a class="d-block small mt-3" href="/user_account/register">Register an Account</a>
+          <!--<a class="d-block small" href="forgot-password.html">Forgot Password?</a>-->
         </div>
+      </div>
     </div>
-</div>
-<script type="text/javascript">
-    $(function() {
-
-        $('#login-form-link').click(function(e) {
-            $("#login-form").delay(100).fadeIn(100);
-            $("#register-form").fadeOut(100);
-            $('#register-form-link').removeClass('active');
-            $(this).addClass('active');
-            e.preventDefault();
-        });
-        $('#register-form-link').click(function(e) {
-            $("#register-form").delay(100).fadeIn(100);
-            $("#login-form").fadeOut(100);
-            $('#login-form-link').removeClass('active');
-            $(this).addClass('active');
-            e.preventDefault();
-        });
-
-    });
-</script>
+  </div>
+  <!-- Bootstrap core JavaScript-->
+  <script src="/static/vendor/jquery/jquery.min.js"></script>
+  <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- Core plugin JavaScript-->
+  <script src="/static/vendor/jquery-easing/jquery.easing.min.js"></script>
 </body>
+
 </html>

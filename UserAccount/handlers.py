@@ -10,12 +10,7 @@ from .models import *
 class UserAccountHandler(webapp2.RequestHandler):
     def login(self):
         page = utils.template("login.html", "UserAccount/html")
-        template_values = {
-            "login": "active",
-            "login_display": "block",
-            "register": "",
-            "register_display": "none",
-        }
+        template_values = {}
         if self.request.method == 'GET':
             self.response.set_cookie("redirect", self.request.get("redirect", ""))
             self.response.out.write(template.render(page, template_values))
@@ -44,13 +39,8 @@ class UserAccountHandler(webapp2.RequestHandler):
                 logging.error(traceback.format_exc())
 
     def register(self):
-        page = utils.template("login.html", "UserAccount/html")
-        template_values = {
-            "login": "",
-            "login_display": "none",
-            "register": "active",
-            "register_display": "block",
-        }
+        page = utils.template("register.html", "UserAccount/html")
+        template_values = {}
         if self.request.method == 'GET':
             self.response.set_cookie("redirect", self.request.get("redirect", ""))
             self.response.out.write(template.render(page, template_values))
