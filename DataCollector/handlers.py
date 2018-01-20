@@ -134,15 +134,7 @@ class CryptoNewsHandler(webapp2.RequestHandler):
                         update = True
 
                 if update:
-                    start_time = time.time()
-                    while True:
-                        if time.time() - start_time > 9 * 60:
-                            break
-                        try:
-                            CryptoNews().update()
-                        except:
-                            logging.error(traceback.format_exc())
-                            time.sleep(60)
-                        time.sleep(120)
+                    CryptoNews().update()
+
         except:
             logging.error(traceback.format_exc())
