@@ -127,12 +127,13 @@ Realtime.prototype.load_response = function(response){
         for(var i=0;i<quote.length;i++){
             var symbol_class = quote[i]['source'];
             $("div."+symbol_class).remove();
+            var date_str = timeConverter(quote[i]['published_on']);
             html += '<div class="list-group list-group-flush small '+ symbol_class +'">' +
                 '<a class="list-group-item list-group-item-action"\n' +
                 '                   target="_blank" href="'+ quote[i]["url"] +'">\n' +
                 '                  <div class="media">\n' +
-                '                    <div class="media-body">\n' + quote[i]['title'] +' - '+ symbol_class +'\n' +
-                '                      <div class="text-muted smaller timeago" title="'+ quote[i]['published_on'] +'"></div>\n' +
+                '                    <div class="media-body">\n' + quote[i]['title'] +' - <strong>'+ symbol_class +'</strong>\n' +
+                '                      <div class="text-muted smaller timeago" title="'+ date_str +'"></div>\n' +
                 '                    </div>\n' +
                 '                  </div>\n' +
                 '                </a></div>';
@@ -235,3 +236,15 @@ Realtime.prototype.load_response = function(response){
 
 };
 
+function timeConverter(UNIX_timestamp){
+    var a = new Date(UNIX_timestamp * 1000);
+    var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    var year = a.getFullYear();
+    var month = months[a.getMonth()];
+    var date = a.getDate();
+    var hour = a.getHours();
+    var min = a.getMinutes();
+    var sec = a.getSeconds();
+    var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec ;
+    return time;
+}
