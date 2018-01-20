@@ -95,6 +95,7 @@ class BinanceMarket(object):
 class CryptoNews(object):
     def __init__(self):
         self.base_api = "https://min-api.cryptocompare.com/data/news/"
+        self.feeds = ["coindesk", "cointelegraph"]
 
     def update(self):
         json_content = self.batch_fetch()
@@ -102,7 +103,9 @@ class CryptoNews(object):
         crypto_news.set(json_content)
 
     def batch_fetch(self):
-        parameters = {}
+        parameters = {
+            "feeds": ",".join(self.feeds)
+        }
 
         r = requests.get(self.base_api, params=parameters).json()
         logging.error(r)
