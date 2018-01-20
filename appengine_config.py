@@ -12,4 +12,4 @@ firebase_admin.initialize_app(cred, {
 })
 
 from google.appengine.api import urlfetch
-urlfetch.set_default_fetch_deadline(50)
+urlfetch.set_default_fetch_deadline(10)
