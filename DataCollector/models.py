@@ -17,9 +17,9 @@ class USMarket(object):
 
     def batch_fetch(self):
         parameters = {
-            "filter": ",".join(self.filters),
+            "last": 5,
             "symbols": ",".join(self.symbols),
-            "types": "quote"
+            "types": "quote,news"
         }
 
         r = requests.get(self.base_api, params=parameters)
