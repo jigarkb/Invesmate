@@ -3,11 +3,11 @@ function Realtime(){
         url: '/portfolio/fetch_all?',
         type: 'GET',
         success: function(data) {
-            console.log(data["response"]);
+            // console.log(data["response"]);
             Realtime.prototype.load_response(data["response"]);
         },
         error: function (data) {
-            console.log(data);
+            // console.log(data);
         }
     });
 }
@@ -117,12 +117,55 @@ Realtime.prototype.load_response = function(response){
         ]
     });
 
+    var reset_crypto_news = function (data) {
+        var quote = data.val();
+        var path_list = data["ref"]["path"]["n"];
+        symbol_ref = path_list[0]+"/"+path_list[1];
+
+
+        var html = "";
+        for(var i=0;i<quote.length;i++){
+            var symbol_class = quote[i]['source'];
+            $("div."+symbol_class).remove();
+            html += '<div class="list-group list-group-flush small '+ symbol_class +'">' +
+                '<a class="list-group-item list-group-item-action"\n' +
+                '                   target="_blank" href="'+ quote[i]["url"] +'">\n' +
+                '                  <div class="media">\n' +
+                '                    <div class="media-body">\n' + quote[i]['title'] +' - '+ symbol_class +'\n' +
+                '                      <div class="text-muted smaller timeago" title="'+ quote[i]['published_on'] +'"></div>\n' +
+                '                    </div>\n' +
+                '                  </div>\n' +
+                '                </a></div>';
+        }
+        $("#crypto_feed").prepend(html);
+        $(".timeago").timeago();
+    };
 
     var reset_current_holding = function (data) {
         var quote = data.val();
         var path_list = data["ref"]["path"]["n"];
         symbol_ref = path_list[0]+"/"+path_list[1]+"/"+path_list[2];
         var position = positions[position_index[symbol_ref]];
+        if(path_list.length === 4 && path_list[3]==="news"){
+            var symbol_class = path_list[2];
+            $("div."+symbol_class).remove();
+            var html = "";
+            for(i=0;i<quote.length;i++){
+                html += '<div class="list-group list-group-flush small '+ symbol_class +'">' +
+                    '<a class="list-group-item list-group-item-action"\n' +
+                    '                   target="_blank" href="'+ quote[i]["url"] +'">\n' +
+                    '                  <div class="media">\n' +
+                    '                    <div class="media-body">\n' +
+                    '                      <strong>'+ symbol_class +': </strong>'+ quote[i]['headline'] +' - '+ quote[i]['source'] +'\n' +
+                    '                      <div class="text-muted smaller timeago" title="'+ quote[i]['datetime'] +'"></div>\n' +
+                    '                    </div>\n' +
+                    '                  </div>\n' +
+                    '                </a></div>';
+            }
+            $("#us_market_feed").prepend(html);
+            $(".timeago").timeago();
+            return;
+        }
         position["market_price_ps"] = quote['latestPrice'];
         position["market_price"] = quote['latestPrice']*position["shares"];
         position["overall_change"] = position["market_price"] - position["cost_price"];
@@ -186,5 +229,9 @@ Realtime.prototype.load_response = function(response){
             firebase.database().ref(symbol_ref).on('child_added', reset_current_holding);
         })(symbol_ref)
     }
+
+    firebase.database().ref("/crypto").on('child_changed', reset_crypto_news);
+    firebase.database().ref("/crypto").on('child_added', reset_crypto_news);
+
 };
 

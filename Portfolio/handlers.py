@@ -29,7 +29,7 @@ class PortfolioHandler(webapp2.RedirectHandler):
             },
             "date_str": datetime.datetime.now().strftime('%Y-%m-%d'),
         }
-        page = utils.template("dashboard.html", "Portfolio/html")
+        page = utils.template("index.html", "Portfolio/html")
         self.response.out.write(template.render(page, template_values))
 
 
