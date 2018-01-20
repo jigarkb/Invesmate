@@ -90,3 +90,21 @@ class BinanceMarket(object):
                     }
                 }
         return result
+
+
+class CryptoNews(object):
+    def __init__(self):
+        self.base_api = "https://min-api.cryptocompare.com/data/news/"
+
+    def update(self):
+        json_content = self.batch_fetch()
+        crypto_news = db.reference('/crypto/news')
+        crypto_news.set(json_content)
+
+    def batch_fetch(self):
+        parameters = {}
+
+        r = requests.get(self.base_api, params=parameters).json()
+        logging.error(r)
+        result = r[:10]
+        return result

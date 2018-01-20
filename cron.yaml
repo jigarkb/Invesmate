@@ -10,3 +10,7 @@ cron:
 - description: Market Update - Binance
   url: /data_collector/binance_market/update
   schedule: every 9 mins
+
+- description: News Update - Crypto
+  url: /data_collector/crypto_news/update
+  schedule: every 9 mins

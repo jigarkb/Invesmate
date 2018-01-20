@@ -15,4 +15,9 @@ app = webapp2.WSGIApplication([
                   handler=BinanceMarketHandler,
                   handler_method='update',
                   methods=['GET', 'POST']),
+
+    webapp2.Route(template='/data_collector/crypto_news/update',
+                  handler=CryptoNewsHandler,
+                  handler_method='update',
+                  methods=['GET', 'POST']),
 ])

@@ -10,3 +10,6 @@ cred = credentials.Certificate(os.path.join(os.path.dirname(__file__), "Keys", "
 firebase_admin.initialize_app(cred, {
     'databaseURL': 'https://brainstorm-cloud.firebaseio.com'
 })
+
+from google.appengine.api import urlfetch
+urlfetch.set_default_fetch_deadline(50)
