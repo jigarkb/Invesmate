@@ -108,6 +108,5 @@ class CryptoNews(object):
         }
 
         r = requests.get(self.base_api, params=parameters).json()
-        logging.error(r)
         result = r[:10]
         return result
