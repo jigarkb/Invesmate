@@ -217,7 +217,7 @@ Realtime.prototype.load_response = function(response){
         }
 
         if(response["24hr_change"] < 0){
-            $("#odo_day_p_p").css('background-color', '#D3241B');
+            $("#odo_day_p_p").css('background-color', '#C0493C');
             $("#odo_day_gain").html(response["24hr_change"]);
             $("#odo_day_gain_pc").html(response["24hr_change_%"]);
         }else{
