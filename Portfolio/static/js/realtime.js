@@ -282,6 +282,7 @@ function edit_modal(row) {
             "  </table></td></tr>\n";
     }
     $("#edit_modal").html("<table style='width: 100%; font-size: medium;'>"+table_html+"</table>");
+    $("#edit_modal_title").html("Transactions for "+data["symbol"]);
 
     $('#myModal').modal('show');
 }
