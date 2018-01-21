@@ -3,7 +3,6 @@ function Realtime(){
         url: '/portfolio/fetch_all?',
         type: 'GET',
         success: function(data) {
-            // console.log(data["response"]);
             Realtime.prototype.load_response(data["response"]);
         },
         error: function (data) {
@@ -28,7 +27,7 @@ Realtime.prototype.load_response = function(response){
                 targets: 0,
                 sortable: false,
                 render: function (data, type, row) {
-                    return "<div style='font-size: medium'>" + row["symbol"] +
+                    return "<div style='font-size: medium'>" + "<a href='#' onClick='edit_modal(this);' data-val='"+JSON.stringify(row)+"'>"+row["symbol"] + "</a>" +
                         "</br><div style='font-size: x-small'>" + row["market"] + "</div></div>";
                 }
             },
@@ -119,7 +118,7 @@ Realtime.prototype.load_response = function(response){
                     sort: "overall_change",
                     type: "numerical"
                 }
-            }
+            },
         ]
     });
 
@@ -202,29 +201,29 @@ Realtime.prototype.load_response = function(response){
         response["overall_change_%"] = 100*(response["overall_change"]/response["cost_price"]);
         response["24hr_change_%"] = 100*response["24hr_change"]/(response["market_price"] - response["24hr_change"]);
         if(response["overall_change"] < 0){
-            $("#odo_total_gain").css('color', '#ff333a').html(response["overall_change"]);
-            $("#odo_total_gain_pc").css('color', '#ff333a').html(response["overall_change_%"]);
-            $("#odo_total_gain_pc_p").css('color', '#ff333a');
+            $("#odo_total_p_p_1").css('background-color', '#C0493C');
+            $("#odo_total_p_p_2").css('background-color', '#C0493C');
+            $("#odo_total_gain").html(response["overall_change"]);
+            $("#odo_total_gain_pc").html(response["overall_change_%"]);
 
-            $('#odo_total').css('color', "#ff333a").html(response["market_price"]);
-            $('#odo_total_p').css('color', "#ff333a");
+            $('#odo_total').html(response["market_price"]);
         }else{
-            $("#odo_total_gain").css('color', '#093').html(response["overall_change"]);
-            $("#odo_total_gain_pc").css('color', '#093').html(response["overall_change_%"]);
-            $("#odo_total_gain_pc_p").css('color', '#093');
+            $("#odo_total_p_p_1").css('background-color', '#85bb65');
+            $("#odo_total_p_p_2").css('background-color', '#85bb65');
+            $("#odo_total_gain").html(response["overall_change"]);
+            $("#odo_total_gain_pc").html(response["overall_change_%"]);
 
-            $('#odo_total').css('color', "#093").html(response["market_price"]);
-            $('#odo_total_p').css('color', "#093");
+            $('#odo_total').html(response["market_price"]);
         }
 
         if(response["24hr_change"] < 0){
-            $("#odo_day_gain").css('color', '#ff333a').html(response["24hr_change"]);
-            $("#odo_day_gain_pc").css('color', '#ff333a').html(response["24hr_change_%"]);
-            $("#odo_day_gain_pc_p").css('color', '#ff333a');
+            $("#odo_day_p_p").css('background-color', '#D3241B');
+            $("#odo_day_gain").html(response["24hr_change"]);
+            $("#odo_day_gain_pc").html(response["24hr_change_%"]);
         }else{
-            $("#odo_day_gain").css('color', '#093').html(response["24hr_change"]);
-            $("#odo_day_gain_pc").css('color', '#093').html(response["24hr_change_%"]);
-            $("#odo_day_gain_pc_p").css('color', '#093');
+            $("#odo_day_p_p").css('background-color', '#85bb65');
+            $("#odo_day_gain").html(response["24hr_change"]);
+            $("#odo_day_gain_pc").html(response["24hr_change_%"]);
         }
 
 
@@ -255,7 +254,7 @@ function timeConverter(UNIX_timestamp){
     return time;
 }
 
-function add_modal() {
+function edit_modal(row) {
     var data = $(row).data("val");
     console.log(data);
 
@@ -288,8 +287,7 @@ function add_modal() {
             "  <br>\n" +
             "</tr>";
     }
+    $("#edit_modal").html("<table>"+table_html+"</table>");
 
-    $("#add_modal_body").html("<table>"+table_html+"</table>");
-
-    $('#add_modal').modal('show');
+    $('#myModal').modal('show');
 }
