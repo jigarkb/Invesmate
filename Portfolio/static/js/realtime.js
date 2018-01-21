@@ -254,3 +254,42 @@ function timeConverter(UNIX_timestamp){
     var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec ;
     return time;
 }
+
+function add_modal() {
+    var data = $(row).data("val");
+    console.log(data);
+
+    var table_html = "";
+    for(var i=0; i< data['lots'].length; ++i){
+        table_html += "<tr>\n" +
+            "\t<table style='background-color: #dddddd; width: 100%; padding: 1rem;'>\n" +
+            "  <tr>\n" +
+            "    <td align='left' style='padding-left: 2rem;'><b>Date Purchased</b></td>\n" +
+            "    <td align='right' style='padding-right: 2rem'>"+data["lots"][i]["purchased_at"]+"</td>\n" +
+            "  </tr>\n" +
+            "  <tr>\n" +
+            "    <td align='left' style='padding-left: 2rem;'><b>Shares<b></td>\n" +
+            "    <td align='right' style='padding-right: 2rem'>"+data["lots"][i]["shares"]+"</td>\n" +
+            "  </tr>\n" +
+            "  <tr>\n" +
+            "    <td align='left' style='padding-left: 2rem;'><b>Purchase Price<b></td>\n" +
+            "    <td align='right' style='padding-right: 2rem'>"+"$"+data["lots"][i]["cost_price"]+"</td>\n" +
+            "  </tr>\n" +
+            "  <tr>\n" +
+            "    <td align='left' style='padding-left: 2rem;'><b> Market Value<b></td>\n" +
+            "    <td align='right' style='padding-right: 2rem'>"+"$"+data["lots"][i]["market_price"].toFixed(2)+"</td>\n" +
+            "  </tr>\n" +
+            "  <tr>\n" +
+            "    <td align='left' style='padding-left: 2rem;'><b> Total Return<b></td>\n" +
+            "    <td align='right' style='padding-right: 2rem'>"+"$"+data["lots"][i]["overall_change"].toFixed(2)+ " (" + data["lots"][i]["overall_change_%"].toFixed(2)+"%"+")"+"</td>\n" +
+            "  </tr>\n" +
+            "   \n" +
+            "  </table>\n" +
+            "  <br>\n" +
+            "</tr>";
+    }
+
+    $("#add_modal_body").html("<table>"+table_html+"</table>");
+
+    $('#add_modal').modal('show');
+}

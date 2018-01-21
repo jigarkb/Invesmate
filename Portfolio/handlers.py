@@ -56,9 +56,12 @@ class HoldingHandler(webapp2.RequestHandler):
                 purchased_at=self.request.get("purchased_at", datetime.datetime.now().strftime("%Y-%m-%d")),
             )
             self.response.out.write(json.dumps({'success': True, 'error': [], 'response': response}))
+            self.redirect("/portfolio")
+
         except Exception as e:
             self.response.out.write(json.dumps({'success': False, 'error': e.message, 'response': None}))
             logging.error(traceback.format_exc())
+            self.redirect("/portfolio")
 
     def fetch_all(self):
         user_info = utils.authenticate_user_account(self)
