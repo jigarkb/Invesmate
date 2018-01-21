@@ -13,8 +13,6 @@ import utils
 class USMarketHandler(webapp2.RequestHandler):
     def update(self):
         try:
-            if datetime.datetime.now().weekday() > 4:
-                return
             if self.request.method == 'GET' and "X-AppEngine-Cron" in self.request.headers:
                     taskqueue.add(
                         method='POST',

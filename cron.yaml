@@ -1,7 +1,7 @@
 cron:
 - description: Market Update - US
   url: /data_collector/us_market/update
-  schedule: every 9 mins from 14:29 to 21:05
+  schedule: every 9 mins
 
 - description: Market Update - Coinbase
   url: /data_collector/coinbase_market/update
