@@ -39,7 +39,13 @@ Realtime.prototype.load_response = function(response){
                 defaultContent: -1,
                 render: {
                     _: function (data, type, row) {
-                        return "<div style='font-size: medium'>" + row["shares"].toFixed(4) +
+                        var shares;
+                        if(row["market"] === "US"){
+                            shares = row["shares"].toFixed(2);
+                        }else{
+                            shares = row["shares"].toFixed(4);
+                        }
+                        return "<div style='font-size: medium'>" + shares +
                             "</br><div style='font-size: x-small'></div></div>";
                     },
                     sort: "shares",
