@@ -23,5 +23,7 @@ We learned a lot about javascript and firebase
 Detailed graphs on historical data as well as trading predictions
 
 ## Play with InvesMate using Sample Account
-Login: sample@invesmate.net
+Login: sample@invesmate.net  
 Password: samplepassword
+
+[![Demo](https://img.youtube.com/vi/vFtY6_3lOog/0.jpg)](https://www.youtube.com/watch?v=vFtY6_3lOog)
