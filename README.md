@@ -26,4 +26,5 @@ Detailed graphs on historical data as well as trading predictions
 Login: sample@invesmate.net  
 Password: samplepassword
 
+## Demo Video
 [![Demo](https://img.youtube.com/vi/vFtY6_3lOog/0.jpg)](https://www.youtube.com/watch?v=vFtY6_3lOog)
