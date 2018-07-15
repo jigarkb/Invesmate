@@ -28,6 +28,7 @@ class PortfolioHandler(webapp2.RedirectHandler):
                 "messagingSenderId": "244652867281"
             },
             "date_str": datetime.datetime.now().strftime('%Y-%m-%d'),
+            "add_transaction": False,
         }
         page = utils.template("index.html", "Portfolio/html")
         self.response.out.write(template.render(page, template_values))
@@ -35,6 +36,7 @@ class PortfolioHandler(webapp2.RedirectHandler):
 
 class HoldingHandler(webapp2.RequestHandler):
     def add(self):
+        return
         user_info = utils.authenticate_user_account(self)
         if not user_info:
             return

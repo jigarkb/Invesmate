@@ -50,7 +50,7 @@ def authenticate_user_account(self):
     try:
         from UserAccount import UserAccount
         auth_token = self.request.cookies.get('auth_token', '')
-        user_info = UserAccount.verify(auth_token=auth_token)
+        user_info = UserAccount().verify(auth_token=auth_token)
         return user_info
     except:
         self.redirect("/user_account/login?redirect="+self.request.url)

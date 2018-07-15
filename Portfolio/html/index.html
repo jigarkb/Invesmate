@@ -486,33 +486,37 @@
                   </button>
                 </div>
                 <div class="modal-body">
-                  <form method="post" action="/portfolio/add">
-                    <div class="form-group">
-                      <input type="text" class="form-control" id="portfolio_name" name="portfolio_name" placeholder="Portfolio Name" style="width: 100%;">
-                    </div>
-                    <div class="form-group">
-                      <input type="text" class="form-control" id="market" name="market" placeholder="Market" style="width: 100%;">
-                    </div>
-                    <div class="form-group">
-                      <input type="text" class="form-control" id="symbol" name="symbol" placeholder="Symbol" style="width: 100%;">
-                    </div>
-                    <div class="form-group">
-                      <input type="text" class="form-control" id="shares" name="shares" placeholder="No. of Shares" style="width: 100%;">
-                    </div>
-                    <div class="form-group">
-                      <input type="text" class="form-control" id="cost_price" name="cost_price" placeholder="Total Purchase Price" style="width: 100%;">
-                    </div>
-                    <div class="form-group">
-                      <input type="text" class="form-control" id="note" name="note" placeholder="Description" style="width: 100%;">
-                    </div>
-                    <div class="form-group">
-                      <input type="text" class="form-control" id="purchased_at" name="purchased_at" placeholder="Purchased At" style="width: 100%;">
-                    </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                      <input type="submit" class="btn btn-primary" value="Submit">
-                    </div>
-                  </form>
+                  {% if add_transaction %}
+                    <form method="post" action="/portfolio/add">
+                      <div class="form-group">
+                        <input type="text" class="form-control" id="portfolio_name" name="portfolio_name" placeholder="Portfolio Name" style="width: 100%;">
+                      </div>
+                      <div class="form-group">
+                        <input type="text" class="form-control" id="market" name="market" placeholder="Market" style="width: 100%;">
+                      </div>
+                      <div class="form-group">
+                        <input type="text" class="form-control" id="symbol" name="symbol" placeholder="Symbol" style="width: 100%;">
+                      </div>
+                      <div class="form-group">
+                        <input type="text" class="form-control" id="shares" name="shares" placeholder="No. of Shares" style="width: 100%;">
+                      </div>
+                      <div class="form-group">
+                        <input type="text" class="form-control" id="cost_price" name="cost_price" placeholder="Total Purchase Price" style="width: 100%;">
+                      </div>
+                      <div class="form-group">
+                        <input type="text" class="form-control" id="note" name="note" placeholder="Description" style="width: 100%;">
+                      </div>
+                      <div class="form-group">
+                        <input type="text" class="form-control" id="purchased_at" name="purchased_at" placeholder="Purchased At" style="width: 100%;">
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <input type="submit" class="btn btn-primary" value="Submit">
+                      </div>
+                    </form>
+                  {% else %}
+                    <dialog>Adding transaction is temporarily disabled</dialog>
+                  {% endif %}
                 </div>
 
               </div>

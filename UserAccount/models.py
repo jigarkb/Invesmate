@@ -3,6 +3,8 @@ import json
 
 import logging
 
+from google.appengine.ext.webapp import template
+
 import model
 import utils
 from passlib.hash import pbkdf2_sha256
@@ -11,7 +13,7 @@ from jose import jws
 
 class UserAccount(object):
     def __init__(self):
-        pass
+        self.secret = template.render(utils.template('user_account_secret', 'Keys'), {})
 
     def get(self, debug=False, **filters):
         query_string = "select * from UserAccount"
@@ -57,11 +59,10 @@ class UserAccount(object):
         datastore_entity.put()
         auth_token = jws.sign(
             json.dumps({"user_id": datastore_entity.user_id, "full_name": datastore_entity.full_name}),
-            'insecure secret', algorithm='HS256')
+            self.secret, algorithm='HS256')
         return {"auth_token": auth_token, "full_name": datastore_entity.full_name}
 
-    @staticmethod
-    def login(**data):
+    def login(self, **data):
         datastore_entity = model.UserAccount.get_by_key_name(data["user_id"])
         if not datastore_entity:
             raise Exception("Email or Password is invalid!")
@@ -69,14 +70,13 @@ class UserAccount(object):
         if pbkdf2_sha256.verify(data["password"], datastore_entity.password_hash):
             auth_token = jws.sign(
                 json.dumps({"user_id": datastore_entity.user_id, "full_name": datastore_entity.full_name}),
-                'insecure secret', algorithm='HS256')
+                self.secret, algorithm='HS256')
             return {"auth_token": auth_token, "full_name": datastore_entity.full_name}
 
         return None
 
-    @staticmethod
-    def verify(**data):
-        return json.loads(jws.verify(data['auth_token'], 'insecure secret', algorithms=['HS256']))
+    def verify(self, **data):
+        return json.loads(jws.verify(data['auth_token'], self.secret, algorithms=['HS256']))
 
     @staticmethod
     def get_json_object(datastore_entity):
